@@ -30,5 +30,22 @@ public class SetWeatherEvent extends Event{
 			}
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String s;
+		s = "Set Weather";
+		
+		for(Pair<String, Weather> p : this.ws) {
+			s += " '";
+			s += p.getFirst();
+			s += " ";
+			s += p.getSecond().toString();
+			s += "'";
+		}
+		
+		s += "'";
+		return s;
+	}
 
 }

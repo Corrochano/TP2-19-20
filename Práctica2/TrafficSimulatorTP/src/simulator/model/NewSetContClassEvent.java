@@ -27,4 +27,21 @@ public class NewSetContClassEvent extends Event {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		String s;
+		s = "Set Contamination Class";
+		
+		for(Pair<String, Integer> p : this.cs) {
+			s += " '";
+			s += p.getFirst().toString();
+			s += " ";
+			s += p.getSecond().toString();
+			s += "'";
+		}
+		
+		s += "'";
+		return s;
+	}
+	
 }

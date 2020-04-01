@@ -75,22 +75,22 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 		for (Road r : _map.getRoads()) {
 
 			// the road goes from (x1,y1) to (x2,y2)
-			int x1 = r.getSrc().getX();
-			int y1 = r.getSrc().getY();
-			int x2 = r.getDest().getX();
-			int y2 = r.getDest().getY();
+			int x1 = r.getSourceJunction().getX();
+			int y1 = r.getSourceJunction().getY();
+			int x2 = r.getDestinationJunction().getX();
+			int y2 = r.getDestinationJunction().getY();
 
 			// choose a color for the arrow depending on the traffic light of the road
 			Color arrowColor = _RED_LIGHT_COLOR;
-			int idx = r.getDest().getGreenLightIndex();
-			if (idx != -1 && r.equals(r.getDest().getInRoads().get(idx))) {
+			int idx = r.getDestinationJunction().getGreenLightIndex();
+			if (idx != -1 && r.equals(r.getDestinationJunction().getInRoads().get(idx))) {
 				arrowColor = _GREEN_LIGHT_COLOR;
 			}
 
 			// choose a color for the road depending on the total contamination, the darker
 			// the
 			// more contaminated (wrt its co2 limit)
-			int roadColorValue = 200 - (int) (200.0 * Math.min(1.0, (double) r.getTotalCO2() / (1.0 + (double) r.getCO2Limit())));
+			int roadColorValue = 200 - (int) (200.0 * Math.min(1.0, (double) r.getTotalContamination() / (1.0 + (double) r.getCO2Limit())));
 			Color roadColor = new Color(roadColorValue, roadColorValue, roadColorValue);
 
 			// draw line from (x1,y1) to (x2,y2) with arrow of color arrowColor and line of

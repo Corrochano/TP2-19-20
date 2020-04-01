@@ -12,5 +12,5 @@ public abstract class NewRoadEvent extends Event{
 	public NewRoadEvent(int time) {
 		super(time);
 	}
-
+	
 }

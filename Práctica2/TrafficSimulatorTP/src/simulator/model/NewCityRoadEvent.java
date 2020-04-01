@@ -19,4 +19,10 @@ public class NewCityRoadEvent extends NewRoadEvent {
 		Road r = new CityRoad(this.id, map.getJunction(this.srcJunc), map.getJunction(this.destJunc), this.maxSpeed, this.co2Limit, this.length, this.weather);
 		map.addRoad(r);
 	}
+	
+	@Override
+	public String toString() {
+		return "New City Road '" + this.id + "'";
+	}
+	
 }
