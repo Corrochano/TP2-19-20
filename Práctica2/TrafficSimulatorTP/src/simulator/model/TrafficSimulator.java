@@ -97,17 +97,23 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 
 	@Override
 	public void addObserver(TrafficSimObserver o) { 
-		this.observerList.add(o);
-		this.notify_OnRegister();
+		try {
+			this.observerList.add(o);
+			this.notify_OnRegister();
+		}
+		catch(Exception e){
+			this.notify_OnError("Impossible to add this observer.");
+			// e.printStackTrace(); 
+		}
 	}
 
 	@Override
 	public void removeObserver(TrafficSimObserver o) {
 		
-		if(this.observerList.isEmpty()) {
-			throw new NullPointerException("The observerList is empty.");
-		}
-		
+//		if(this.observerList.isEmpty()) {
+//			throw new NullPointerException("The observerList is empty.");
+//		}
+//		
 		
 		if(this.observerList.indexOf(o) == -1) {
 			throw new NullPointerException("The observer isn't in the list.");
@@ -118,9 +124,9 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 	
 	public void notify_OnAdvanceStart() {
 		
-		if(this.observerList.isEmpty()) {
-			throw new NullPointerException("The observerList is empty.");
-		}
+//		if(this.observerList.isEmpty()) {
+//			throw new NullPointerException("The observerList is empty.");
+//		}
 		
 		for(TrafficSimObserver o : this.observerList) {
 			o.onAdvanceStart(this.rMap, this.eventList, this.time);
@@ -130,9 +136,9 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 
 	public void notify_OnAdvanceEnd() {
 		
-		if(this.observerList.isEmpty()) {
-			throw new NullPointerException("The observerList is empty.");
-		}
+//		if(this.observerList.isEmpty()) {
+//			throw new NullPointerException("The observerList is empty.");
+//		}
 		
 		for(TrafficSimObserver o : this.observerList) {
 			o.onAdvanceEnd(this.rMap, this.eventList, this.time);
@@ -141,9 +147,9 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 	
 	public void notify_OnEventAdded(Event e) {
 		
-		if(this.observerList.isEmpty()) {
-			throw new NullPointerException("The observerList is empty.");
-		}
+//		if(this.observerList.isEmpty()) {
+//			throw new NullPointerException("The observerList is empty.");
+//		}
 		
 		for(TrafficSimObserver o : this.observerList) {
 			o.onEventAdded(this.rMap, this.eventList, e, this.time);
@@ -152,9 +158,9 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 	
 	public void notify_OnReset() {
 		
-		if(this.observerList.isEmpty()) {
-			throw new NullPointerException("The observerList is empty.");
-		}
+//		if(this.observerList.isEmpty()) {
+//			throw new NullPointerException("The observerList is empty.");
+//		}
 		
 		for(TrafficSimObserver o : this.observerList) {
 			o.onReset(this.rMap, this.eventList, this.time);
@@ -162,10 +168,10 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 	}
 	
 	public void notify_OnRegister() {
-		
-		if(this.observerList.isEmpty()) {
-			throw new NullPointerException("The observerList is empty.");
-		}
+//		
+//		if(this.observerList.isEmpty()) {
+//			throw new NullPointerException("The observerList is empty.");
+//		}
 		
 		for(TrafficSimObserver o : this.observerList) {
 			o.onRegister(this.rMap, this.eventList, this.time);
@@ -174,9 +180,9 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 	
 	public void notify_OnError(String msg) {
 		
-		if(this.observerList.isEmpty()) {
-			throw new NullPointerException("The observerList is empty.");
-		}
+//		if(this.observerList.isEmpty()) {
+//			throw new NullPointerException("The observerList is empty.");
+//		}
 		
 		for(TrafficSimObserver o : this.observerList) {
 			o.onError(msg);

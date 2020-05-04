@@ -171,5 +171,17 @@ public class Vehicle extends SimulatedObject { // Añadir excepciones
 	public VehicleStatus getStatus() {
 		return this.status;
 	}
+
+	public int getMaxiumSpeed() {
+		return this.maximumSpeed;
+	}
+
+	public int getTotalContamination() {
+		return this.totalContamination;
+	}
+
+	public int getTotalTravelledDistance() {
+		return this.totalTravelledDistance;
+	}
 	
 }

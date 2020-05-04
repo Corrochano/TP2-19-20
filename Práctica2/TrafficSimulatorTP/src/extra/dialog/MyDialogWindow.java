@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-class MyDialogWindow extends JDialog {
+public class MyDialogWindow extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 

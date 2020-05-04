@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -35,10 +37,12 @@ import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;
 //import simulator.model.NewVehicleEvent;
 import simulator.model.TrafficSimulator;
+import simulator.view.MainWindow;
 
 public class Main {
 
 	private final static Integer _timeLimitDefaultValue = 10;
+	private static String _sMode;
 	private static String _sTicks;
 	private static int _ticks = _timeLimitDefaultValue;
 	private static String _inFile = null;
@@ -56,6 +60,8 @@ public class Main {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
+			parseModeOption(line);
+			
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutFileOption(line);
@@ -88,6 +94,8 @@ public class Main {
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
 		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc(
 				"Ticks to the simulator’s main loop (default value is 10).").build());
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().desc(
+				"Start the simulator in GUI mode or in console mode.").build());
 		
 		return cmdLineOptions;
 	}
@@ -102,13 +110,19 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
-			throw new ParseException("An events file is missing");
+
+		if(_sMode == "console") {
+			if (_inFile == null) {
+				throw new ParseException("An events file is missing"); // Ahora opcional en modo gui
+			}
 		}
+	
 	}
 
-	private static void parseOutFileOption(CommandLine line) throws ParseException {
-		_outFile = line.getOptionValue("o");
+	private static void parseOutFileOption(CommandLine line) throws ParseException { // ignorar en GUI
+		if(_sMode != "gui") {
+			_outFile = line.getOptionValue("o");
+		}
 	}
 
 	private static void parseTicksOption(CommandLine line) throws ParseException {
@@ -122,9 +136,24 @@ public class Main {
 		
 	}
 	
+	private static void parseModeOption(CommandLine line) throws ParseException{
+		_sMode = line.getOptionValue("m");
+		
+//		_sMode.toLowerCase();
+		
+		if(_sMode == null) {
+			_sMode = "gui";
+		}
+		
+		if(_sMode.equals("gui") && _sMode.equals("console")) {
+			throw new ParseException("The mode must be gui or console.");
+		}
+		
+	}
+	
 	private static <T> void initFactories() {
 
-		// TODO complete this method to initialize _eventsFactory
+		// complete this method to initialize _eventsFactory
 		
 		ArrayList<Builder<LightSwitchingStrategy>> lsbs= new ArrayList<>();
 		lsbs.add( new RoundRobinStrategyBuilder("round_robin_lss") );
@@ -152,7 +181,7 @@ public class Main {
 	}
 
 	private static void startBatchMode() throws IOException {
-		// TODO complete this method to start the simulation
+		// complete this method to start the simulation
 		InputStream is = new FileInputStream(new File(_inFile));
 		OutputStream os = null;
 		if(_outFile == null) {
@@ -167,11 +196,44 @@ public class Main {
 		control.run(_ticks, os);
 		is.close();
 	}
+	
+	private static void startGUIMode() throws IOException {
+		// Echar un ojo
+		TrafficSimulator tf = new TrafficSimulator();
+		Controller control = new Controller(tf, _eventsFactory);
+		InputStream is = null;
+		
+		if(_inFile != null) {
+			is = new FileInputStream(new File(_inFile));
+			control.loadEvents(is);
+		}
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			@ Override
+			public void run() { // ¿?
+				try {
+					new MainWindow(control);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		if(is != null) {
+			is.close();
+		}
+	}
 
 	private static void start(String[] args) throws IOException {
 		initFactories();
 		parseArgs(args);
-		startBatchMode();
+		if(_sMode.contentEquals("console")) {
+			startBatchMode();
+		}
+		else if(_sMode.contentEquals("gui")){
+			startGUIMode();
+		}
 	}
 
 	// example command lines:

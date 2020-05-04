@@ -39,7 +39,6 @@ public class Controller {
 		for(int i = 0; i < eventList.length(); i++) {
 			this.trafficSimulator.addEvent(this.eFactory.createInstance(eventList.getJSONObject(i))); // OJO CUIDAO 
 		}
-		
 	}
 	
 	public void run(int n, OutputStream out){
@@ -58,11 +57,17 @@ public class Controller {
 		
 	}
 	
+	public void run(int n) {
+		for(int i = 0; i < n; i++) {
+			this.trafficSimulator.advance();
+		}
+	}
+	
 	public void reset() {
 		this.trafficSimulator.reset();
 	}
 	
-	protected void addObserver(TrafficSimObserver o){
+	public void addObserver(TrafficSimObserver o){
 		this.trafficSimulator.addObserver(o);
 	}
 	
@@ -70,7 +75,7 @@ public class Controller {
 		this.trafficSimulator.removeObserver(o);
 	}
 	
-	protected void addEvent(Event e){
+	public void addEvent(Event e){
 		this.trafficSimulator.addEvent(e);
 	}
 	

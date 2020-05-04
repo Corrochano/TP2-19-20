@@ -180,5 +180,9 @@ public abstract class Road extends SimulatedObject {
 		this.sourceJunction.addOutGoingRoad(this);
 	}
 
+	public List<Vehicle> getVehicles() {
+		return this.vehicles;
+	}
+
 	
 }

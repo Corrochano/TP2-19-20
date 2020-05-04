@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 public class Junction extends SimulatedObject{
 
-	private List<Road> entList; // Static?
+	private List<Road> entList; 
 	private Map<Junction,Road> extList;
 	private List<List<Vehicle>> colaList;
 	private Map <Road, List<Vehicle>> roadList;
@@ -151,6 +151,31 @@ public class Junction extends SimulatedObject{
 		
 	return	this.extList.get(j); // �Error?
 		
+	}
+
+	public int getX() {
+		return this.x;
+	}
+
+	public int getY() {
+		return this.y;
+	}
+	
+	public int getIndSem() {
+		return this.indSem;
+	}
+	
+	public List<Road> getEntRoads(){
+		return this.entList;
+	}
+	
+	public List<List<Vehicle>> getColaList() {
+		return this.colaList;
+	}
+	
+	public List<Vehicle> getQueue(){
+		List<Vehicle> vMove = this.qEst.dequeue(colaList.get(indSem));
+		return vMove;
 	}
 	
 }

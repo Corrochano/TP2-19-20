@@ -29,13 +29,13 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 
 	private static final Color _BG_COLOR = Color.WHITE;
 	private static final Color _JUNCTION_COLOR = Color.BLUE;
-	private static final Color _JUNCTION_LABEL_COLOR = new Color(200, 100, 0);
+	private static final Color _JUNCTION_LABEL_COLOR = new Color(200, 100, 0); // Rojo Verde Azul
 	private static final Color _GREEN_LIGHT_COLOR = Color.GREEN;
 	private static final Color _RED_LIGHT_COLOR = Color.RED;
 
 	private RoadMap _map;
 
-	private Image _car;
+	private Image _car; // En el nuestro, vehículo contaminación y weather
 
 	MapComponent(Controller ctrl) {
 		initGUI();
@@ -46,7 +46,7 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 		_car = loadImage("car_front.png");
 	}
 
-	public void paintComponent(Graphics graphics) {
+	public void paintComponent(Graphics graphics) { // invocar en repaint en trafficsimobserver
 		super.paintComponent(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -77,20 +77,21 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 			// the road goes from (x1,y1) to (x2,y2)
 			int x1 = r.getSourceJunction().getX();
 			int y1 = r.getSourceJunction().getY();
-			int x2 = r.getDestinationJunction().getX();
+			int x2 = r.getDestinationJunction().getX(); 
 			int y2 = r.getDestinationJunction().getY();
 
 			// choose a color for the arrow depending on the traffic light of the road
 			Color arrowColor = _RED_LIGHT_COLOR;
-			int idx = r.getDestinationJunction().getGreenLightIndex();
-			if (idx != -1 && r.equals(r.getDestinationJunction().getInRoads().get(idx))) {
+			int idx = r.getDestinationJunction().getIndSem();
+			if (idx != -1 && r.equals(r.getDestinationJunction().getEntRoads().get(idx))) {
 				arrowColor = _GREEN_LIGHT_COLOR;
 			}
 
 			// choose a color for the road depending on the total contamination, the darker
 			// the
 			// more contaminated (wrt its co2 limit)
-			int roadColorValue = 200 - (int) (200.0 * Math.min(1.0, (double) r.getTotalContamination() / (1.0 + (double) r.getCO2Limit())));
+			int roadColorValue = 200 - (int) (200.0 * Math.min(1.0, (double) r.getTotalContamination() 
+					/ (1.0 + (double) r.getContaminationAlarmLimit())));
 			Color roadColor = new Color(roadColorValue, roadColorValue, roadColorValue);
 
 			// draw line from (x1,y1) to (x2,y2) with arrow of color arrowColor and line of
@@ -155,7 +156,7 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 
 	// this method is used to update the preffered and actual size of the component,
 	// so when we draw outside the visible area the scrollbars show up
-	private void updatePrefferedSize() {
+	private void updatePrefferedSize() { // El nuestro no hay que centrarlo
 		int maxW = 200;
 		int maxH = 200;
 		for (Junction j : _map.getJunctions()) {
@@ -171,7 +172,7 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 	// This method draws a line from (x1,y1) to (x2,y2) with an arrow.
 	// The arrow is of height h and width w.
 	// The last two arguments are the colors of the arrow and the line
-	private void drawLineWithArrow(//
+	private void drawLineWithArrow(// No hay que hacerlo
 			Graphics g, //
 			int x1, int y1, //
 			int x2, int y2, //
