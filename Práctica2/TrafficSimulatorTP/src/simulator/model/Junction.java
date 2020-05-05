@@ -19,9 +19,8 @@ public class Junction extends SimulatedObject{
 	private int lastSemChang;
 	private LightSwitchingStrategy semEst;
 	private DequeuingStrategy qEst;
-	@SuppressWarnings("unused")
+	
 	private int x;
-	@SuppressWarnings("unused")
 	private int y;
 	
 	protected Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy

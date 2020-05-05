@@ -66,7 +66,7 @@ public class MyChangeContaminationClassWindow extends JDialog{
 		mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
 		JPanel buttonsPanel = new JPanel();
-		//buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
+		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(buttonsPanel);
 
 		vehicle = new JLabel(" Vehicle: ");
@@ -123,7 +123,8 @@ public class MyChangeContaminationClassWindow extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//TODO
-				if (_vehiclesModel.getSelectedItem() != null && _co2ClassModel.getSelectedItem() != null) {
+				if (_vehiclesModel.getSelectedItem() != null && _co2ClassModel.getSelectedItem() != null
+						&& (int)_ticksSpinner.getValue() >= 1) {
 					_status = 1;
 					MyChangeContaminationClassWindow.this.setVisible(false);
 				}

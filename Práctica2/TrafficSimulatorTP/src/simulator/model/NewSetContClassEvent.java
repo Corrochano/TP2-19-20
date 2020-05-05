@@ -30,17 +30,21 @@ public class NewSetContClassEvent extends Event {
 	@Override
 	public String toString() {
 		String s;
-		s = "Set Contamination Class";
+		s = "Change CO2 Class";
 		
+		s += "[";
 		for(Pair<String, Integer> p : this.cs) {
-			s += " '";
+			s += "(";
 			s += p.getFirst().toString();
-			s += " ";
+			s += ", ";
 			s += p.getSecond().toString();
-			s += "'";
+			s += ")";
+			if(cs.indexOf(p) != cs.size() - 1) {
+				s += ", ";
+			}
 		}
 		
-		s += "'";
+		s += "]";
 		return s;
 	}
 	

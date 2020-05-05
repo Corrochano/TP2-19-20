@@ -67,7 +67,7 @@ public class MyChangeWeatherWindow extends JDialog{
 		mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
 		JPanel buttonsPanel = new JPanel();
-		//buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
+		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(buttonsPanel);
 
 		road = new JLabel(" Road: ");
@@ -123,9 +123,8 @@ public class MyChangeWeatherWindow extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				//TODO 
-				
-				if (_roadsModel.getSelectedItem() != null && _weathersModel.getSelectedItem() != null) {
+				if (_roadsModel.getSelectedItem() != null && _weathersModel.getSelectedItem() != null
+						&& (int)_ticksSpinner.getValue() >= 1) {
 					_status = 1;
 					MyChangeWeatherWindow.this.setVisible(false);
 				}

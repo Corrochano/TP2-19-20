@@ -214,7 +214,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int ret = JOptionPane.showConfirmDialog(null, "Are you sure to exit TrafficSimulator?", "Warning", JOptionPane.YES_NO_OPTION);
+				int ret = JOptionPane.showConfirmDialog(null, "Are sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION);
 				
 				if (ret == JOptionPane.YES_OPTION) System.exit(0);
 			}
@@ -386,21 +386,20 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				int result = fc.showOpenDialog(fc);
 				
 				if(result == JFileChooser.APPROVE_OPTION) {
-					JOptionPane.showMessageDialog(fc, "You choose " + fc.getSelectedFile());
+					File file = fc.getSelectedFile();
+					InputStream is;
+					
+					try {
+						is = new FileInputStream(file);
+						_ctrl.reset();
+						_ctrl.loadEvents(is);
+						JOptionPane.showMessageDialog(fc, "You choose " + fc.getSelectedFile());
+					} catch(FileNotFoundException x) {
+						JOptionPane.showMessageDialog(null, "File not found.");
+					}	
 				} else {
-					JOptionPane.showMessageDialog(fc, "Error or you canceled the file selection. Remember you must choose a .json file.");
+					JOptionPane.showMessageDialog(fc, "Canceled.");
 				}
-				
-				File file = fc.getSelectedFile();
-				InputStream is;
-				
-				try {
-					is = new FileInputStream(file);
-					_ctrl.reset();
-					_ctrl.loadEvents(is);
-				} catch(FileNotFoundException x) {
-					JOptionPane.showMessageDialog(null, "Load error.");
-				}	
 			}	
 		});
 		
