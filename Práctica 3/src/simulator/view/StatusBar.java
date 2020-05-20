@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
 import simulator.model.Event;
@@ -69,21 +70,48 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		_currTime.setText(String.valueOf(time));
-		event.setText(" Event added: ");
-		_lastEvent.setText(/*events.get(events.size() - 1)*/e.toString()); // OJO
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				_currTime.setText(String.valueOf(time));
+				event.setText(" Event added: ");
+				_lastEvent.setText(/*events.get(events.size() - 1)*/e.toString()); // OJO
+			}
+	
+		});
+		
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		_currTime.setText(String.valueOf(0));
-		_lastEvent.setText("Welcome!");
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				_currTime.setText(String.valueOf(0));
+				_lastEvent.setText("Welcome!");
+			}
+	
+		});
+		
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		_currTime.setText(String.valueOf(time));
-		event.setText("Welcome!");
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				_currTime.setText(String.valueOf(time));
+				event.setText("Welcome!");
+			}
+	
+		});
+		
 	}
 
 	@Override

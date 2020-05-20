@@ -54,7 +54,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private RoadMap _rmap;
 	
 	private int ticks = 10;
-	private int time = 0;
+	private int _time = 0;
 	
 	private JButton loadButton;
 	private JButton changeVehicleContClassButton;
@@ -365,7 +365,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			
 			ps.add(p);
 			
-			SetWeatherEvent e = new SetWeatherEvent(this.time + dialog.getTicks(), ps);
+			SetWeatherEvent e = new SetWeatherEvent(this._time + dialog.getTicks(), ps);
 			
 			_ctrl.addEvent(e);
 			
@@ -420,7 +420,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			
 			ps.add(p);
 			
-			NewSetContClassEvent e = new NewSetContClassEvent(time + dialog.getTicks(), ps);
+			NewSetContClassEvent e = new NewSetContClassEvent(_time + dialog.getTicks(), ps);
 			
 			_ctrl.addEvent(e);
 			
@@ -489,8 +489,17 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
+		
+	SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
 				_rmap = map;
-			this.time = time;
+				_time = time;
+			}
+	
+		});
+	
 	}
 
 	@Override
@@ -501,20 +510,47 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		_rmap = map;
-		this.time = time;
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				_rmap = map;
+				_time = time;
+			}
+	
+		});
+		
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		ticks = 10;
-		this.time = time;
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				ticks = 10;
+				_time = time;
+			}
+	
+		});
+		
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		_rmap = map;
-		this.time = time;
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				_rmap = map;
+				_time = time;
+			}
+	
+		});
+		
 	}
 
 	@Override

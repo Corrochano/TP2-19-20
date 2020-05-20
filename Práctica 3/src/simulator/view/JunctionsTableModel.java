@@ -3,6 +3,7 @@ package simulator.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -83,28 +84,60 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-
-		this.junctions=map.getJunctions();
-		fireTableDataChanged();
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				junctions = map.getJunctions();
+				fireTableDataChanged();
+			}
+	
+		});
+		
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		this.junctions=map.getJunctions();
-		fireTableDataChanged();
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				junctions = map.getJunctions();
+				fireTableDataChanged();
+			}
+	
+		});
 		
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		this.junctions=map.getJunctions();
-		fireTableDataChanged();
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				junctions = map.getJunctions();
+				fireTableDataChanged();
+			}
+	
+		});
 		
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		fireTableDataChanged();
+		
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				fireTableDataChanged();
+			}
+	
+		});
 		
 	}
 
